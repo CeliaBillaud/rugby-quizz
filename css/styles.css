@@ -93,7 +93,8 @@ h1{
     margin-top: 1em;
 }
 
-button.next-button{
+button.next-button,
+button.try-again{
     border : solid 1px white;
     background-color: white;
     border-radius: 10px;
@@ -101,6 +102,17 @@ button.next-button{
     padding: 0.7em 1em;
     text-align: center;
     font-weight: bold;
-    margin: auto;
-
+    margin: auto;;
 }
+
+button svg{
+    vertical-align: middle;
+    display: inline-block;
+}
+
+button.next-button svg{
+    margin-left: 0.5em;
+}
+
+/* media queries for desktop */
+

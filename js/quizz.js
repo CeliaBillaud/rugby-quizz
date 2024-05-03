@@ -25,8 +25,11 @@ const quizz = {
             playerButton.addEventListener("click", quizz.handleQuizzAnswer)
         })
 
-        const nextButton = document.querySelector(".next-button")
-        nextButton.addEventListener("click", quizz.handleNext)
+        const nextButton = document.querySelector(".next-button");
+        nextButton.addEventListener("click", quizz.handleNext);
+
+        const tryAgainButton = document.querySelector(".try-again");
+        tryAgainButton.addEventListener("click", quizz.handleTryAgain);
 
     },
 
@@ -141,18 +144,42 @@ const quizz = {
     //Si currentIndex est à la fin du tableau (c'est-à-dire, si currentIndex + 1 égale rugbyPlayers.length), l'opérateur modulo fait en sorte que le nouvel index soit 0, retournant au début du tableau.
 
     handleNext: function(event) {
+        const quizzElement = document.querySelector(".quizz-container")
+        const quizzHeader = document.querySelector(".quizz-header")
+        const nextButton = document.querySelector(".next-button")
         const rightAnswerMessage = document.querySelector(".right-answer")
         const wrongAnswerMessage = document.querySelector(".wrong-answer")
+        const tryAgainButton = document.querySelector(".try-again");
         //reset messages
         rightAnswerMessage.style.display = "none";
         wrongAnswerMessage.style.display= "none";
         
         //todo quand les 53 sont passés, afficher le score et un bouton "recommencer"
-        quizz.currentPlayerIndex = (quizz.currentPlayerIndex + 1) % data.length;
-        quizz.init();
+
+        if((quizz.currentPlayerIndex + 1) % data.length === 0){
+            //quizzElement display None
+            quizzElement.style.display="none";
+            nextButton.style.display="none";
+            //add congrats
+            const congratsElement = document.createElement('p');
+            congratsElement.innerHTML= "Bien joué, tu as fini le quizz !";
+            congratsElement.classList.add = "congrats-element";
+            quizzHeader.prepend(congratsElement);
+            //add button try again ?
+            tryAgainButton.style.display="block";
+        } else
+        {
+            quizz.currentPlayerIndex = (quizz.currentPlayerIndex + 1) % data.length;
+            quizz.init();
+        }
+
+        
+    },
+
+    handleTryAgain: function(event) {
+        //Pour recharger entièrement la page, y compris à partir du serveur (sans utiliser le cache)
+        window.location.reload(true);
     }
-
-
 
 }
 
