@@ -77,8 +77,6 @@ const quizz = {
 
         const shuffledPlayersIndex = shuffle(playersIndex);
 
-        console.log(shuffledPlayersIndex)
-
         //create buttons
         const playersButtons = document.querySelector(".name-buttons")
 
@@ -115,7 +113,8 @@ const quizz = {
         location.reload();
     }
 
-    
+    //todo 
+    //compter le score +1 si on trouve du premier coup
 
 }
 
