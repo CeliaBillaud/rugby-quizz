@@ -1,0 +1,106 @@
+html {
+    /* todo : faire un fond modern et dégradé */
+    --theme-blue-main: #232983;
+  
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(31,37,124,1) 60%, rgba(11,86,172,1) 100%);
+}
+
+h1{
+    font-weight: bold;
+    font-size: 1.5em;
+    color: white;
+    text-transform: uppercase;
+    width: 80%;
+    margin: auto;
+    margin-top: 1em;
+   
+}
+
+.quizz-header{
+    background-color: aliceblue;
+    color: black;
+    font-weight: 300;
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto;
+    margin-top: 1em;
+    padding: 1em;
+    text-align: center;
+}
+
+.quizz-header .right-answer{
+    margin-top: 0.5em;
+    color: green;
+    font-weight: 600;
+}
+
+.quizz-header .wrong-answer{
+    margin-top: 0.5em;
+    color: #D90429;
+    font-weight: 600;
+}
+.quizz-container{
+    background-color: aliceblue;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin: auto;
+    margin-top: 1em;
+    padding: 1em;
+    text-align: center;
+}
+
+.quizz-container img {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 1em;
+}
+
+.quizz-container .name-buttons{
+    display: flex;
+    flex-direction: column;
+    gap : 0.5em;
+    margin-top: 1em;
+    width: fit-content;
+    margin: auto;
+}
+
+.quizz-container .name-buttons button{
+    border : none;
+    background-color: var(--theme-blue-main);
+    border-radius: 10px;
+    color: white;
+    padding: 0.7em 1em;
+    text-align: center;
+
+}
+
+.quizz-container .player-infos{
+    color: var(--theme-blue-main);
+    font-weight: 400;
+}
+
+.quizz-footer{
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+}
+
+button.next-button{
+    border : solid 1px white;
+    background-color: white;
+    border-radius: 10px;
+    color:var(--theme-blue-main);
+    padding: 0.7em 1em;
+    text-align: center;
+    font-weight: bold;
+    margin: auto;
+
+}

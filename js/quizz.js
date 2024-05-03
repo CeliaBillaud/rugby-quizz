@@ -2,14 +2,19 @@ import data from './data.js';
 
 const quizz = {
 
-    //we need this info in every functions so we define it in the init
-    rightPlayerIndex: null,
+    //we start with the first player
+    currentPlayerIndex: 0,
+    currentScore: 0,
+
+    // //define to access in every function
+    // rightAnswerMessage: null,
+    // wrongAnswerMessage: null,
 
 
     init: function() {
-        //define the player
-        //choose a random player between 0 and 53
-        quizz.rightPlayerIndex = Math.floor( Math.random() * 53);
+
+        // quizz.rightAnswerMessage = document.querySelector(".right-answer")
+        // quizz.wrongAnswerMessage = document.querySelector(".wrong-answer")
 
         quizz.load();
         
@@ -28,23 +33,29 @@ const quizz = {
     load: function() {
         const quizzElement = document.querySelector(".quizz-container")
 
+        //clear the content of the quizz container
+        quizzElement.innerHTML = "";
+
+        //clear the message
+        // quizz.rightAnswerMessage.style.display = "none";
+        // quizz.wrongAnswerMessage.style.display = "none";
+
         //create img of a player
         const img = document.createElement("img");
-        img.src = data[quizz.rightPlayerIndex][2];
+        img.src = data[quizz.currentPlayerIndex][2];
         img.alt = 'Photo du joueur';
-        img.style = 'width: 15%'
         quizzElement.prepend(img);
 
         //create a set for players index
         const playersIndexSet = new Set();
 
         //adding the right index in the set
-        playersIndexSet.add(quizz.rightPlayerIndex);
+        playersIndexSet.add(quizz.currentPlayerIndex);
 
         for (let i = 0; i < 3; i++){
             //adding 3 random players in the set
             const randomPlayerIndex = Math.floor( Math.random() * 53);
-            if (randomPlayerIndex !== quizz.rightPlayerIndex ) {
+            if (randomPlayerIndex !== quizz.currentPlayerIndex ) {
                 playersIndexSet.add(randomPlayerIndex);
             //if is equal we add the next player
             } else {
@@ -56,8 +67,6 @@ const quizz = {
         const playersIndex = Array.from(playersIndexSet);
 
         //shuffle the array
-        console.log(playersIndex)
-
         // declare the function 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -78,7 +87,10 @@ const quizz = {
         const shuffledPlayersIndex = shuffle(playersIndex);
 
         //create buttons
-        const playersButtons = document.querySelector(".name-buttons")
+
+        const playersButtons = document.createElement("div");
+        playersButtons.classList.add("name-buttons")
+        quizzElement.append(playersButtons);
 
         shuffledPlayersIndex.forEach(playerIndex => {
             const playerButton = document.createElement("button");
@@ -94,27 +106,53 @@ const quizz = {
         const playerIndex = clickedButtonElement.dataset.playerIndex;
         const rightAnswerMessage = document.querySelector(".right-answer")
         const wrongAnswerMessage = document.querySelector(".wrong-answer")
-        //reset messages
-        rightAnswerMessage.style.display = "none";
-        wrongAnswerMessage.style.display= "none";
+        const scoreElement = document.querySelector(".score span");
+        const currentScore = document.querySelector(".score span").innerHTML;
+        const playersButtons = document.querySelector(".name-buttons")
+        const quizzElement = document.querySelector(".quizz-container")
+
+        //hide buttons 
+        playersButtons.innerHTML = "";
+
+        //créer une div avec le nom du joueur et son poste
+        const playerInfos = document.createElement("p");
+        playerInfos.classList.add('player-infos');
+        playerInfos.innerHTML = data[quizz.currentPlayerIndex][0] +" - "+ data[quizz.currentPlayerIndex][1];
+        quizzElement.append(playerInfos)
 
         console.log(playerIndex);
-        console.log(quizz.rightPlayerIndex)
+        console.log(quizz.currentPlayerIndex)
 
-        if (playerIndex == quizz.rightPlayerIndex){
+        if (playerIndex == quizz.currentPlayerIndex){
             rightAnswerMessage.style.display = "block";
+            
+            // ajouter +1 au score
+            const newScore = parseInt(currentScore) + 1;
+            //changer le score
+            scoreElement.innerHTML = newScore;
+
         } else {
             wrongAnswerMessage.style.display= "block";
         }
         
     },
 
+    //Si currentIndex n'est pas à la fin du tableau, l'ajout de 1 à currentIndex le déplace vers l'index suivant.
+    //Si currentIndex est à la fin du tableau (c'est-à-dire, si currentIndex + 1 égale rugbyPlayers.length), l'opérateur modulo fait en sorte que le nouvel index soit 0, retournant au début du tableau.
+
     handleNext: function(event) {
-        location.reload();
+        const rightAnswerMessage = document.querySelector(".right-answer")
+        const wrongAnswerMessage = document.querySelector(".wrong-answer")
+        //reset messages
+        rightAnswerMessage.style.display = "none";
+        wrongAnswerMessage.style.display= "none";
+        
+        //todo quand les 53 sont passés, afficher le score et un bouton "recommencer"
+        quizz.currentPlayerIndex = (quizz.currentPlayerIndex + 1) % data.length;
+        quizz.init();
     }
 
-    //todo 
-    //compter le score +1 si on trouve du premier coup
+
 
 }
 
