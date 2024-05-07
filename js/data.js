@@ -162,7 +162,7 @@ const data = [
     [
         "DUPONT Antoine",
         "Demi de mêlée",
-        "https://api.www.ffr.fr/wp-content/uploads/2019/01/dupont_antoine-768x512.jpg"
+        "https://equipe-france.s3.eu-west-3.amazonaws.com/img/personne/rugby-antoine-dupont-1.jpg"
     ],
     [
         "LE GARREC  Nolann",

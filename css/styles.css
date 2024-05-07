@@ -1,25 +1,34 @@
 html {
-    /* todo : faire un fond modern et dégradé */
     --theme-blue-main: #232983;
-  
 }
 
 body{
-    font-family: 'Poppins', sans-serif;
-    height: 100vh;
     background: rgb(2,0,36);
     background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(31,37,124,1) 60%, rgba(11,86,172,1) 100%);
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
 }
 
 h1{
+    color: white;
     font-weight: bold;
     font-size: 1.5em;
-    color: white;
     text-transform: uppercase;
     width: 80%;
     margin: auto;
     margin-top: 1em;
-   
+}
+
+h2{
+    display: none;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    text-transform: uppercase;
+    width: 80%;
+    margin: auto;
+    margin-top: 1em;
+    text-align: center;
 }
 
 .quizz-header{
@@ -114,5 +123,47 @@ button.next-button svg{
     margin-left: 0.5em;
 }
 
-/* media queries for desktop */
+/* media queries for large screebs*/
 
+@media screen and (min-width: 1025px) {
+    /* Insérez vos propriétés CSS ici, avec vos sélecteurs*/
+    h1{
+        font-size: 3em;
+        text-align: center;
+    }
+
+    h2{
+        display: block;
+    }
+
+    .quizz-header{
+        font-size: 1.2em;
+        margin-top: 1em;
+    }
+
+    .quizz-container{
+        width: 40%;
+    }
+    
+    .quizz-container img {
+        width: 50%;
+    }
+    
+    .quizz-container .name-buttons{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 1.3em;
+        width: 75%;
+        margin: auto;
+    }
+
+    .quizz-container .player-infos{
+        font-size: 1.2em;
+    }
+
+    button.next-button {
+        font-size: 1.2em;
+    }
+
+    }
