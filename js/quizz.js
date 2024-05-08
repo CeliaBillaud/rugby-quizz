@@ -1,53 +1,54 @@
 import data from './data.js';
 
 const quizz = {
+    quizzElement: null,
+    rightAnswerMessage : null,
+    wrongAnswerMessage: null,
+    scoreElement : null,
+    playersButtons : null,
+    nextButton : null,
+    tryAgainButton : null,
+
 
     //we start with the first player
     currentPlayerIndex: 0,
     currentScore: 0,
 
-    // //define to access in every function
-    // rightAnswerMessage: null,
-    // wrongAnswerMessage: null,
-
-
     init: function() {
-
-        // quizz.rightAnswerMessage = document.querySelector(".right-answer")
-        // quizz.wrongAnswerMessage = document.querySelector(".wrong-answer")
-
+        quizz.initElement();
         quizz.load();
-        
-        //définir playersButtons au début du module
-        const playersButtons = document.querySelectorAll(".name-buttons button");
+        quizz.bind();
+    },
 
-        playersButtons.forEach((playerButton) => {
-            playerButton.addEventListener("click", quizz.handleQuizzAnswer)
-        })
-
-        const nextButton = document.querySelector(".next-button");
-        nextButton.addEventListener("click", quizz.handleNext);
-
-        const tryAgainButton = document.querySelector(".try-again");
-        tryAgainButton.addEventListener("click", quizz.handleTryAgain);
+    initElement : function(){
+        quizz.quizzElement = document.querySelector(".quizz-container");
+        quizz.rightAnswerMessage = document.querySelector(".right-answer")
+        quizz.wrongAnswerMessage = document.querySelector(".wrong-answer")
+        quizz.scoreElement = document.querySelector(".score span");
+        quizz.playersButtons = document.querySelectorAll(".name-buttons button");
+        quizz.nextButton = document.querySelector(".next-button");
+        quizz.tryAgainButton = document.querySelector(".try-again");
 
     },
 
+    bind: function(){
+        quizz.playersButtons.forEach((playerButton) => {
+            playerButton.addEventListener("click", quizz.handleQuizzAnswer)
+        })
+
+        quizz.nextButton.addEventListener("click", quizz.handleNext);
+        quizz.tryAgainButton.addEventListener("click", quizz.handleTryAgain);
+    },
+
     load: function() {
-        const quizzElement = document.querySelector(".quizz-container")
-
         //clear the content of the quizz container
-        quizzElement.innerHTML = "";
-
-        //clear the message
-        // quizz.rightAnswerMessage.style.display = "none";
-        // quizz.wrongAnswerMessage.style.display = "none";
+        quizz.quizzElement.innerHTML = "";
 
         //create img of a player
         const img = document.createElement("img");
         img.src = data[quizz.currentPlayerIndex][2];
         img.alt = 'Photo du joueur';
-        quizzElement.prepend(img);
+        quizz.quizzElement.prepend(img);
 
         //create a set for players index
         const playersIndexSet = new Set();
@@ -93,7 +94,7 @@ const quizz = {
 
         const playersButtons = document.createElement("div");
         playersButtons.classList.add("name-buttons")
-        quizzElement.append(playersButtons);
+        quizz.quizzElement.append(playersButtons);
 
         shuffledPlayersIndex.forEach(playerIndex => {
             const playerButton = document.createElement("button");
@@ -107,35 +108,30 @@ const quizz = {
     handleQuizzAnswer: function(event) {
         const clickedButtonElement = event.currentTarget;
         const playerIndex = clickedButtonElement.dataset.playerIndex;
-        const rightAnswerMessage = document.querySelector(".right-answer")
-        const wrongAnswerMessage = document.querySelector(".wrong-answer")
-        const scoreElement = document.querySelector(".score span");
         const currentScore = document.querySelector(".score span").innerHTML;
-        const playersButtons = document.querySelector(".name-buttons")
-        const quizzElement = document.querySelector(".quizz-container")
 
         //hide buttons 
-        playersButtons.innerHTML = "";
+        quizz.playersButtons.innerHTML = "";
 
         //créer une div avec le nom du joueur et son poste
         const playerInfos = document.createElement("p");
         playerInfos.classList.add('player-infos');
         playerInfos.innerHTML = data[quizz.currentPlayerIndex][0] +" - "+ data[quizz.currentPlayerIndex][1];
-        quizzElement.append(playerInfos)
+        quizz.quizzElement.append(playerInfos)
 
         console.log(playerIndex);
         console.log(quizz.currentPlayerIndex)
 
         if (playerIndex == quizz.currentPlayerIndex){
-            rightAnswerMessage.style.display = "block";
+            quizz.rightAnswerMessage.style.display = "block";
             
             // ajouter +1 au score
             const newScore = parseInt(currentScore) + 1;
             //changer le score
-            scoreElement.innerHTML = newScore;
+            quizz.scoreElement.innerHTML = newScore;
 
         } else {
-            wrongAnswerMessage.style.display= "block";
+            quizz.wrongAnswerMessage.style.display= "block";
         }
         
     },
@@ -144,21 +140,16 @@ const quizz = {
     //Si currentIndex est à la fin du tableau (c'est-à-dire, si currentIndex + 1 égale rugbyPlayers.length), l'opérateur modulo fait en sorte que le nouvel index soit 0, retournant au début du tableau.
 
     handleNext: function(event) {
-        const quizzElement = document.querySelector(".quizz-container")
         const quizzHeader = document.querySelector(".quizz-header")
         const nextButton = document.querySelector(".next-button")
-        const rightAnswerMessage = document.querySelector(".right-answer")
-        const wrongAnswerMessage = document.querySelector(".wrong-answer")
         const tryAgainButton = document.querySelector(".try-again");
         //reset messages
-        rightAnswerMessage.style.display = "none";
-        wrongAnswerMessage.style.display= "none";
-        
-        //todo quand les 53 sont passés, afficher le score et un bouton "recommencer"
+        quizz.rightAnswerMessage.style.display = "none";
+        quizz.wrongAnswerMessage.style.display= "none";
 
         if((quizz.currentPlayerIndex + 1) % data.length === 0){
             //quizzElement display None
-            quizzElement.style.display="none";
+            quizz.quizzElement.style.display="none";
             nextButton.style.display="none";
             //add congrats
             const congratsElement = document.createElement('p');
@@ -172,8 +163,6 @@ const quizz = {
             quizz.currentPlayerIndex = (quizz.currentPlayerIndex + 1) % data.length;
             quizz.init();
         }
-
-        
     },
 
     handleTryAgain: function(event) {
